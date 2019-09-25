@@ -1,0 +1,62 @@
+tags:
+  - Line Broadcast
+consumes:
+  - "application/json"
+# - "application/x-www-form-urlencoded"
+produces:
+  - "application/json"
+
+description: |
+  ## 提供碩網Line封鎖後，關閉該使用者所有推播設定。
+parameters:
+  - name: body
+    in: body
+    required: true
+    schema:
+      id: BroadcastCancel
+      required:
+        - line_id
+        - source
+      properties:
+        line_id:
+          type: string
+          maxLength: 255
+          description: Line ID
+          example: "line id"
+        source:
+          type: string
+          maxLength: 45
+          description: 來源別
+          example: "永豐金"
+
+responses:
+  200:
+    description: "successful operation"
+    schema:
+      $ref: '#/definitions/BroadcastCancelResponse200'
+    examples:
+      application/json: |-
+        {
+            "success": true,
+            "action": "broadcast_cancel",
+            "result": {
+                "msg": "使用者已取消全部推播設定"
+            }
+        }
+
+definitions: 
+  BroadcastCancelResponse200:
+    properties:
+      success:
+        type: boolean 
+        description: API狀態
+        example: true 
+      result:
+        type: object
+        description: Result
+        $ref: '#/definitions/BroadcastCancelResponse200Result'
+  BroadcastCancelResponse200Result:
+    properties:
+      msg:
+        type: string
+        description: 訊息

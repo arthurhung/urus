@@ -1,0 +1,136 @@
+tags:
+  - 戶政及家事法庭查詢作業
+consumes:
+  - "application/json"
+# - "application/x-www-form-urlencoded"
+produces:
+  - "application/json"
+
+description: |
+  ## 家事事件公告查詢
+  ### [家事事件公告查詢作業](http://domestic.judicial.gov.tw/abbs/wkw/WHD9HN01.jsp)
+parameters:
+  - name: body
+    in: body
+    required: true
+    schema:
+      id: FamilyLitigation
+      properties:
+        user_id:
+          type: string
+          maxLength: 10
+          description: 身分證號
+          example: "A123456789"
+        name:
+          type: string
+          description: 中文姓名
+          example: "洪先生"
+
+responses:
+  200:
+    description: "successful operation"
+    schema:
+      $ref: "#/definitions/FamilyLitigationResponse200"
+    examples:
+      application/json: |-
+        {
+            "success": true,
+            "action": "family_litigation",
+            "result": [
+                {
+                    "item": "1",
+                    "court": "臺灣高雄少年及家事法院",
+                    "summary": "107年 司繼字 第3064號",
+                    "dispatch_date": "107/09/25",
+                    "announce_date": "107/10/01",
+                    "announcement": "拋棄繼承"
+                },
+                {
+                    "item": "2",
+                    "court": "臺灣臺南地方法院",
+                    "summary": "107年 司繼字 第2037號",
+                    "dispatch_date": "107/08/23",
+                    "announce_date": "107/08/23",
+                    "announcement": "拋棄繼承"
+                },
+                {
+                    "item": "3",
+                    "court": "臺灣高雄少年及家事法院",
+                    "summary": "103年 司繼字 第576號",
+                    "dispatch_date": "103/02/24",
+                    "announce_date": "103/02/24",
+                    "announcement": "拋棄繼承"
+                }
+            ]
+        }
+  400:
+    description: "bad request"
+    schema:
+      $ref: "#/definitions/FamilyLitigationResponse400"
+    examples:
+      application/json: |-
+        {
+            "success": false,
+            "error_type": "family_litigation_error",
+            "error_code": "None",
+            "result": {
+                "msg": "查詢條件姓名及身分證號不能皆為全部。"
+            }
+        }
+definitions:
+  FamilyLitigationResponse200:
+    properties:
+      success:
+        type: boolean
+        description: API狀態
+        example: true
+      result:
+        type: object
+        description: Result
+        properties:
+          "1":
+            type: object
+            description: 編號
+            example: |-
+              {
+                "court": "臺灣高雄少年及家事法院",
+                "summary": "107年 司繼字 第3064號",
+                "dispatch_date": "107/09/25",
+                "announce_date": "107/10/01",
+                "announcement": "拋棄繼承"
+              }
+            properties:
+              court:
+                type: string
+                description: 法院別
+                example: "臺灣高雄少年及家事法院"
+              summary:
+                type: string
+                description: 案號 / 摘要
+                example: "107年 司繼字 第3064號"
+              dispatch_date:
+                type: string
+                description: 發文日期
+                example: "107/09/25"
+              announce_date:
+                type: string
+                description: 公告日期
+                example: "107/09/25"
+              announcement:
+                type: string
+                description: 公告事項
+                example: "107/10/01"
+
+  FamilyLitigationResponse400:
+    properties:
+      success:
+        type: boolean
+        description: API狀態
+        example: false
+      result:
+        type: object
+        description: Result
+        properties:
+          msg:
+            type: string
+            description: 訊息

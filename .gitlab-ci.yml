@@ -1,0 +1,27 @@
+image: a8_env:v1.0
+
+stages:
+  - test
+  - deploy
+
+UAT_test:
+  stage: test
+  script: 
+    - pip3.6 install -r requirements.txt
+    - pytest --disable-warnings
+  only:
+    - UAT
+  tags:
+    - urus_uat
+
+UAT_deploy:
+  stage: deploy
+  
+  script:
+    - sshpass -p $UAT_PWD ssh -o StrictHostKeyChecking=no apuser@128.110.5.153 -tt 'cd /home/apuser/urus && git pull --rebase && cd uwsgi_utils && source /home/apuser/py_env/urus_py36/bin/activate && uwsgi --reload uwsgi.pid'
+
+  only:
+    - UAT
+
+  tags:
+    - urus_uat

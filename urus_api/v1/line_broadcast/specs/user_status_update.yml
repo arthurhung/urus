@@ -1,0 +1,87 @@
+tags:
+  - Line Broadcast
+consumes:
+  - "application/json"
+# - "application/x-www-form-urlencoded"
+produces:
+  - "application/json"
+
+description: |
+  ## Line user 推播設定狀態更新
+parameters:
+  - name: body
+    in: body
+    required: true
+    schema:
+      id: BroadcastUserStatusUpdate
+      required:
+        - line_id
+        - broadcast
+        - user_status
+      properties:
+        line_id:
+          type: string
+          maxLength: 255
+          description: Line ID
+          example: "line id"
+        broadcast:
+          type: integer
+          description: 推播項目標號
+          example: 1
+        user_status:
+          type: string
+          description: |-
+            ### 推播狀態
+            * "1": 開
+            * "0": 關
+          example: "1"
+responses:
+  200:
+    description: "successful operation"
+    schema:
+      $ref: "#/definitions/BroadcastUserStatusUpdateResponse200"
+    examples:
+      application/json: |-
+        {
+            "success": true,
+            "action": "user_status_update",
+            "result": {
+                "line_id": "Ue0c0be2da2fb6c1a53805dd17e107bbc",
+                "broadcast": 1,
+                "item_name": "盤前新聞及籌碼",
+                "user_status": "1"
+            }
+        }
+
+definitions:
+  BroadcastUserStatusUpdateResponse200:
+    properties:
+      success:
+        type: boolean
+        description: API狀態
+        example: true
+      result:
+        type: object
+        description: Result
+        properties:
+          line_id:
+            type: string
+            maxLength: 255
+            description: Line ID
+            example: "line id"
+          broadcast:
+            type: integer
+            description: 項目編號
+            example: 1
+          item_name:
+            type: string
+            description: 項目名稱
+            example: 新聞訊息
+          user_status:
+            type: string
+            description: |-
+              ### 推播狀態
+              * "1": 開
+              * "0": 關
+            example: "1"
+

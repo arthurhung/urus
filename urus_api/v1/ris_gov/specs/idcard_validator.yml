@@ -1,0 +1,231 @@
+tags:
+  - 戶政及家事法庭查詢作業
+consumes:
+- "application/json"
+# - "application/x-www-form-urlencoded"
+produces:
+- "application/json"
+
+description: | 
+  ## 身分證查驗
+  ### [國民身分證領補換資料查詢作業](https://www.ris.gov.tw/apply-idCard/app/idcard/IDCardReissue/)
+parameters:
+  - name: body
+    in: body
+    required: true
+    schema:
+      id: IDcardValidator
+      required:
+        - user_id
+        - tw_year
+        - month
+        - day
+        - city_code
+        - type
+      properties:
+        user_id: 
+          type: string
+          maxLength: 10
+          minLength: 1
+          description: 身分證號
+          example: "A123456789"
+        tw_year:
+          type: string
+          description: 發證年(民國)
+          example: "95"
+          enum: [
+            "94",
+            "95",
+            "96",
+            "97",
+            "98",
+            "99",
+            "100",
+            "101",
+            "102",
+            "103",
+            "104",
+            "105",
+            "106",
+            "107",
+            "108"
+          ] 
+        month:
+          type: string
+          minLength: 1
+          description: 發證月
+          example: "4"
+          enum: [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12"
+          ] 
+        day:
+          type: string
+          minLength: 1
+          description: 發證日
+          example: "7"
+          enum: [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11",
+            "12",
+            "13",
+            "14",
+            "15",
+            "16",
+            "17",
+            "18",
+            "19",
+            "20",
+            "21",
+            "22",
+            "23",
+            "24",
+            "25",
+            "26",
+            "27",
+            "28",
+            "29",
+            "30",
+            "31"
+          ] 
+        city_code:
+          type: string
+          description: | 
+            ### 發證地點代碼
+            * "10001": 北縣
+            * "10002": 宜縣
+            * "10003": 桃縣
+            * "10004": 竹縣
+            * "10005": 苗縣
+            * "10006": 中縣
+            * "10007": 彰縣
+            * "10008": 投縣
+            * "10009": 雲縣
+            * "10010": 嘉縣
+            * "10011": 南縣
+            * "10012": 高縣
+            * "10013": 屏縣
+            * "10014": 東縣
+            * "10015": 花縣
+            * "10016": 澎縣
+            * "10017": 基市
+            * "10018": 竹市
+            * "10020": 嘉市
+            * "09007": 連江
+            * "09020": 金門
+            * "63000": 北市
+            * "64000": 高市
+            * "65000": 新北市
+            * "66000": 中市
+            * "67000": 南市
+            * "68000": 桃市
+          example: "63000"
+          enum: [
+            "10001",
+            "10002",
+            "10003",
+            "10004",
+            "10005",
+            "10006",
+            "10007",
+            "10008",
+            "10009",
+            "10010",
+            "10011",
+            "10012",
+            "10013",
+            "10014",
+            "10015",
+            "10016",
+            "10017",
+            "10018",
+            "10020",
+            "09007",
+            "09020",
+            "63000",
+            "64000",
+            "65000",
+            "66000",
+            "67000",
+            "68000"
+          ]   
+        type:
+          type: string
+          description: | 
+            ### 領補換類別
+            * "1": 初發
+            * "2": 補發
+            * "3": 換發
+
+          example: "3"
+          enum: [
+            "1",
+            "2",
+            "3"
+          ]                          
+        birthday:
+          type: string
+          description: | 
+            ### 生日
+            * 用於統號是否變更過之查詢
+          example: "800716"
+responses:
+  200:
+    description: "successful operation"
+    schema:
+      $ref: '#/definitions/IDcardValidatorResponse200'
+    examples:
+      application/json: |-
+        {
+            "success": true,
+            "action": "idcard_validator",
+            "result": {
+                "msg": [
+                    "國民身分證資料與檔存資料相符。"
+                ],
+                "idc": {
+                    "success": true,
+                    "message": "查無「國民身分證統一編號曾經變更」。",
+                    "data": "N"
+                }
+            }
+        }
+
+definitions: 
+  IDcardValidatorResponse200:
+    properties:
+      success:
+        type: boolean 
+        description: API狀態
+        example: true 
+      result:
+        type: object
+        description: Result
+        $ref: '#/definitions/IDcardValidatorResponse200Result'
+  IDcardValidatorResponse200Result:
+    properties:
+      msg:
+        type: string
+        description: 訊息
+      idc:
+        type: object
+        description: 統號是否變更過API訊息

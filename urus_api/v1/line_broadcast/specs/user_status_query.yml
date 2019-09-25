@@ -1,0 +1,124 @@
+tags:
+  - Line Broadcast
+consumes:
+  - "application/json"
+# - "application/x-www-form-urlencoded"
+produces:
+  - "application/json"
+
+description: |
+  ## Line user 推播狀態查詢
+parameters:
+  - name: body
+    in: body
+    required: true
+    schema:
+      id: BroadcastUserStatus
+      required:
+        - line_id
+      properties:
+        line_id:
+          type: string
+          maxLength: 255
+          description: Line ID
+          example: "line id"
+
+responses:
+  200:
+    description: "successful operation"
+    schema:
+      $ref: "#/definitions/BroadcastUserStatusResponse200"
+    examples:
+      application/json: |-
+        {
+            "success": true,
+            "action": "user_status_query",
+            "result": [
+                {
+                    "category_number": 1,
+                    "category_name": "新聞訊息",
+                    "items": [
+                        {
+                            "broadcast": 1,
+                            "user_status": "1",
+                            "item_name": "盤前新聞及籌碼"
+                        },
+                        {
+                            "broadcast": 2,
+                            "user_status": "1",
+                            "item_name": "盤中熱門新聞"
+                        },
+                        {
+                            "broadcast": 3,
+                            "user_status": "1",
+                            "item_name": "一週事件及數據"
+                        },
+                        {
+                            "broadcast": 4,
+                            "user_status": "1",
+                            "item_name": "庫存股相關新聞"
+                        }
+                    ]
+                },
+                {
+                    "category_number": 2,
+                    "category_name": "籌碼訊息",
+                    "items": [
+                        {
+                            "broadcast": 5,
+                            "user_status": "1",
+                            "item_name": "庫存股籌碼分析"
+                        }
+                    ]
+                },
+                {
+                    "category_number": 3,
+                    "category_name": "技術分析",
+                    "items": [
+                        {
+                            "broadcast": 6,
+                            "user_status": "1",
+                            "item_name": "庫存股高手進出"
+                        }
+                    ]
+                }
+            ]
+        }
+
+definitions:
+  BroadcastUserStatusResponse200:
+    properties:
+      success:
+        type: boolean
+        description: API狀態
+        example: true
+      result:
+        type: object
+        description: Result
+        properties:
+          category_number:
+            type: integer
+            description: 類別編號
+            example: 1
+          category_name:
+            type: string
+            description: 類別名稱
+            example: 新聞訊息
+          items:
+            type: object
+            description: 推播項目
+            properties:
+              broadcast:
+                type: integer
+                description: 項目編號
+                example: 1
+              user_status:
+                type: string
+                description: |-
+                  ### 推播狀態
+                  * "1": 開
+                  * "0": 關
+              item_name:
+                type: string
+                description: 項目名稱
+                example: 新聞訊息
