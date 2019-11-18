@@ -3,7 +3,7 @@ Flask==1.0.2
 flask_restful==0.3.7
 Keras==2.2.4
 tensorflow==1.5
-requests==2.18.4
+requests==2.20.0
 flask_script==2.0.6
 pillow==5.4.1
 lxml==4.3.0
