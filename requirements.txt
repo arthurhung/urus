@@ -6,7 +6,7 @@ tensorflow==1.5
 requests==2.18.4
 flask_script==2.0.6
 pillow==5.4.1
-lxml==4.3.0
+lxml==4.6.2
 pytest==4.1.0
 Flask-SQLAlchemy==2.3.2
 mysqlclient==1.4.2.post1
